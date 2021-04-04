@@ -3,16 +3,23 @@
 const User = use('App/Models/User')
 
 class UserController {
+  async login({request, auth}) {
+    const {email, password} = request.all()
+
+    return await auth.attempt(email, password)
+  }
+
+
   async register({request}) {
     const {email, password} = request.all()
 
-    const user = await User.create({
+    await User.create({
       email,
       password,
       username: email
     })
 
-    return user
+    return this.login(...arguments)
   }
 }
 
